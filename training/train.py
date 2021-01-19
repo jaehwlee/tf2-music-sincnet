@@ -24,7 +24,7 @@ def make_checkpoint():
             )
     return checkpointer
 
-def load_data(root="../dataset"):
+def load_data(root="../../tf2-music-tagging-models/dataset"):
     train_data = TrainLoader(root=root, split="train")
     valid_data = DataLoader(root=root, split="valid")
     test_data = DataLoader(root=root, split="test")
@@ -63,13 +63,13 @@ def train():
                 epochs=epoch,
                 callbacks=[checkpointer, csv_logger],
             )
-            loss, roc_auc, pr_auc = model.evaluate(valid_data))
+            loss, roc_auc, pr_auc = model.evaluate(valid_data)
             print('roc_auc : {}, pr_auc : {}, loss : {}'.format(roc_auc, pr_auc, loss))
             model.save("../models/model"+str(i)+".h5")
 
         
-        loss, roc_auc, pr_auc = model.evaluate(test_data))
-        print('roc_auc : {}, pr_auc : {}, loss : {}'.format(roc_auc, pr_auc, loss))
+        loss, roc_auc, pr_auc = model.evaluate(test_data)
+        print('@TEST RESULT\n roc_auc : {}, pr_auc : {}, loss : {}'.format(roc_auc, pr_auc, loss))
 
 
 if __name__ == "__main__":
