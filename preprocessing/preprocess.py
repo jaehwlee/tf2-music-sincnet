@@ -12,7 +12,7 @@ class Processor:
 
     def get_paths(self, data_path):
         self.files = glob.glob(os.path.join(data_path, "mtat", "mp3", "*/*.mp3"))
-        self.npy_path = os.path.join(data_path, "mtat", "npy")
+        self.npy_path = os.path.join(data_path, "mtat", "normalize_npy")
         if not os.path.exists(self.npy_path):
             os.makedirs(self.npy_path)
 
@@ -28,6 +28,7 @@ class Processor:
             if not os.path.exists(npy_fn):
                 try:
                     x = self.get_npy(fn)
+                    x = x / (np.max(np.abs(x)) + 1e-7)
                     np.save(open(npy_fn, "wb"), x)
                 except RuntimeError:
                     # some audio files are broken
